@@ -1,6 +1,6 @@
 Name:    vmagent
 Version: 1.93.5
-Release: 2
+Release: 3
 Summary: vmagent is a tiny but mighty agent which helps you collect metrics from various sources and store them in VictoriaMetrics or any other Prometheus-compatible storage systems that support the remote_write protocol.
 
 Group:   Development Tools
@@ -60,6 +60,17 @@ cp vmagent-prod %{buildroot}%{_bindir}/vmagent-prod
 /usr/bin/systemctl daemon-reload
 %endif
 
+if [ "$1" -eq 0 ]; then
+    # Package is being erased
+    if [ -f /etc/victoriametrics/vmagent/vmagent.conf.rpmsave ]; then
+        mv /etc/victoriametrics/vmagent/vmagent.conf.rpmsave /etc/victoriametrics/vmagent/vmagent.conf
+    fi
+
+    if [ -f /etc/victoriametrics/vmagent/prometheus.yml.rpmsave ]; then
+        mv /etc/victoriametrics/vmagent/prometheus.yml.rpmsave /etc/victoriametrics/vmagent/prometheus.yml
+    fi
+fi
+
 %files
 %{_bindir}/vmagent-prod
 %dir %attr(0775, victoriametrics, victoriametrics) /etc/victoriametrics/vmagent
@@ -71,5 +82,8 @@ cp vmagent-prod %{buildroot}%{_bindir}/vmagent-prod
 %endif
 
 %changelog
+* Thu May 29 2024 Cody Robertson <cody@hawkhost.com> - 1.93.5-3
+- Post uninstall configuration handling specific to Hawk Host Inc.
+
 * Thu May 29 2024 Cody Robertson <cody@hawkhost.com> - 1.93.5-2
 - Dont replace configuration with default config if it already exists
