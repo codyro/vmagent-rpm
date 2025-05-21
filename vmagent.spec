@@ -1,6 +1,6 @@
 Name:    vmagent
-Version: 1.93.5
-Release: 3
+Version: 1.117.1
+Release: 1
 Summary: vmagent is a tiny but mighty agent which helps you collect metrics from various sources and store them in VictoriaMetrics or any other Prometheus-compatible storage systems that support the remote_write protocol.
 
 Group:   Development Tools
@@ -82,8 +82,11 @@ fi
 %endif
 
 %changelog
-* Thu May 29 2024 Cody Robertson <cody@hawkhost.com> - 1.93.5-3
+* Wed May 21 2025 Cody Robertson <cody@hawkhost.com> - 1.117.1-1
+- Bump version to v1.117.1-1
+
+* Wed May 29 2024 Cody Robertson <cody@hawkhost.com> - 1.93.5-3
 - Post uninstall configuration handling specific to Hawk Host Inc.
 
-* Thu May 29 2024 Cody Robertson <cody@hawkhost.com> - 1.93.5-2
+* Wed May 29 2024 Cody Robertson <cody@hawkhost.com> - 1.93.5-2
 - Dont replace configuration with default config if it already exists
