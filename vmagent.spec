@@ -46,20 +46,13 @@ cp vmagent-prod %{buildroot}%{_bindir}/vmagent-prod
 /usr/bin/getent passwd victoriametrics > /dev/null || /usr/sbin/useradd -r -m -d /home/victoriametrics -s /bin/bash -g victoriametrics victoriametrics
 
 %post
-%if %use_systemd
-/usr/bin/systemctl daemon-reload
-/usr/bin/systemctl try-restart %{name}
-%endif
+%systemd_post %{name}.service
 
 %preun
-%if %use_systemd
-/usr/bin/systemctl stop %{name}
-%endif
+%systemd_preun %{name}.service
 
 %postun
-%if %use_systemd
-/usr/bin/systemctl daemon-reload
-%endif
+%systemd_postun_with_restart %{name}.service
 
 if [ "$1" -eq 0 ]; then
     # Package is being erased
