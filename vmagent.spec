@@ -47,7 +47,14 @@ cp vmagent-prod %{buildroot}%{_bindir}/vmagent-prod
 
 %post
 %systemd_post %{name}.service
-/usr/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
+# Start service on fresh install, restart on upgrade
+if [ $1 -eq 1 ]; then
+    # Fresh install
+    /usr/bin/systemctl start %{name}.service >/dev/null 2>&1 || :
+elif [ $1 -eq 2 ]; then
+    # Upgrade
+    /usr/bin/systemctl start %{name}.service >/dev/null 2>&1 || :
+fi
 
 %preun
 %systemd_preun %{name}.service
