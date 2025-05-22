@@ -1,6 +1,6 @@
 Name:    vmagent
 Version: 1.117.1
-Release: 2
+Release: 3
 Summary: vmagent is a tiny but mighty agent which helps you collect metrics from various sources and store them in VictoriaMetrics or any other Prometheus-compatible storage systems that support the remote_write protocol.
 
 Group:   Development Tools
@@ -48,14 +48,7 @@ cp vmagent-prod %{buildroot}%{_bindir}/vmagent-prod
 %post
 %if %use_systemd
 /usr/bin/systemctl daemon-reload
-
-if [ $1 -eq 2  ]; then
-    # Upgrade
-    /usr/bin/systemctl try-restart %{name}
-else
-    /usr/bin/systemctl start %{name}
-fi
-
+/usr/bin/systemctl try-restart %{name}
 %endif
 
 %preun
